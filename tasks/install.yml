@@ -1,0 +1,15 @@
+---
+- name: "Tasks for RedHat"
+  ansible.builtin.include_tasks: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- name: "Tasks for Debian"
+  ansible.builtin.include_tasks: setup-Debian.yml
+  when: ansible_distribution == 'Debian'
+
+- name: "Tasks for Ubuntu"
+  ansible.builtin.include_tasks: setup-Ubuntu.yml
+  when: ansible_distribution == 'Ubuntu'
+
+- name: "Configure"
+  ansible.builtin.include_tasks: configuration.yml

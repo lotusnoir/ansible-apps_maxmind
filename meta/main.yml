@@ -1,0 +1,39 @@
+---
+galaxy_info:
+  author: lotusnoir
+  role_name: apps_maxmind
+  description: "Deploy [maxmind](https://www.maxmind.com/en/home) with ansible.
+(forked from https://github.com/jgeusebroek/ansible-role-maxmind-geoip.git all credits to him)
+"
+  license: "Apache License, Version 2.0"
+  min_ansible_version: "2.8"
+
+  platforms:
+    - name: "Ubuntu"
+      versions:
+        - "focal"
+        - "jammy"
+        - "noble"
+    - name: "Debian"
+      versions:
+        - "bookworm"
+        - "bullseye"
+        - "trixie"
+    - name: "Rocky"
+      versions:
+        - "10"
+        - "9"
+    - name: "OracleLinux"
+      versions:
+        - "10"
+        - "9"
+    - name: "RedHat"
+      versions:
+        - "9"
+
+  galaxy_tags:
+    - data
+    - maxmind
+    - geoip
+
+dependencies: []

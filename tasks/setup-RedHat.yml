@@ -1,0 +1,17 @@
+---
+# - name: Install Maxmind GeoIP tools | RedHat
+#   ansible.builtin.package:
+#     name: '{{ maxmind_update_package_rhel }}'
+#     state: present
+
+- name: "Download GeoIP Update RPM"
+  ansible.builtin.get_url:
+    url: "{{ geoipupdate_rpm_url }}"
+    dest: "{{ geoipupdate_rpm_local }}"
+    mode: '0644'
+
+- name: "Install GeoIP Update RPM (skip GPG check)"
+  ansible.builtin.dnf:
+    name: "{{ geoipupdate_rpm_local }}"
+    state: present
+    disable_gpg_check: true

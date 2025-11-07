@@ -1,0 +1,26 @@
+---
+- name: Configure GeoIP update
+  ansible.builtin.template:
+    src: 'GeoIP.conf.j2'
+    dest: '{{ maxmind_update_configuration }}'
+    owner: root
+    group: root
+    mode: "0640"
+  notify: Update GeoIP databases
+
+    # - name: "Ensure geoipupdate is installed"
+    #   ansible.builtin.command:
+    #     cmd: geoipupdate -v
+    #   register: geoipupdate_check
+    #   failed_when: geoipupdate_check.rc != 0
+    #   changed_when: false
+
+- name: Install cron for automatic GeoIP database update
+  ansible.builtin.template:
+    src: 'geoipupdate.cron.j2'
+    dest: '/etc/cron.d/geoipupdate'
+    owner: root
+    group: root
+    mode: "0640"
+  when: maxmind_add_cron | bool
+  notify: Restart cron

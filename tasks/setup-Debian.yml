@@ -1,0 +1,25 @@
+---
+- name: "DEBIAN | Check if geoipupdate is installed"
+  ansible.builtin.command: dpkg-query -W geoipupdate
+  register: geoipupdate_check
+  failed_when: geoipupdate_check.rc > 1
+  changed_when: geoipupdate_check.rc == 1
+
+- name: "DEBIAN | Download geoipupdate package to /tmp"
+  ansible.builtin.get_url:
+    url: '{{ maxmind_update_package_debian }}'
+    dest: /tmp/tmp_geoip_package.deb
+    mode: "0440"
+  when: geoipupdate_check.rc == 1
+
+- name: "DEBIAN | Install Maxmind geoipupdate from local deb"
+  ansible.builtin.apt:
+    deb: '/tmp/tmp_geoip_package.deb'
+    state: present
+  when: geoipupdate_check.rc == 1
+
+- name: "DEBIAN | Remove downloaded geoipupdate package"
+  ansible.builtin.file:
+    path: '/tmp/tmp_geoip_package.deb'
+    state: absent
+  when: geoipupdate_check.rc == 1

@@ -1,0 +1,21 @@
+---
+- name: "Ubuntu | Install requierements"
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  register: __pkg_result
+  retries: 12
+  delay: 10
+  until: __pkg_result is success
+  with_items:
+    - gnupg2
+
+- name: "Ubuntu | Add Maxmind PPA repository"
+  ansible.builtin.apt_repository:
+    codename: "{{ ansible_distribution_release }}"
+    repo: ppa:maxmind/ppa
+
+- name: "Ubuntu | Install Maxmind geoipupdate"
+  ansible.builtin.apt:
+    name: geoipupdate
+    state: present
